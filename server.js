@@ -1,10 +1,10 @@
 const express = require('express');
-const Database = require('better-sqlite3');
+const { DatabaseSync } = require('node:sqlite');
 const crypto = require('crypto');
 const path = require('path');
 
-const db = new Database(process.env.DB_PATH || path.join(__dirname, 'sufra.db'));
-db.pragma('journal_mode = WAL');
+const db = new DatabaseSync(process.env.DB_PATH || path.join(__dirname, 'sufra.db'));
+db.exec('PRAGMA journal_mode = WAL; PRAGMA foreign_keys = ON;');
 db.exec(`
 CREATE TABLE IF NOT EXISTS categories (id INTEGER PRIMARY KEY, name TEXT NOT NULL, sort INTEGER DEFAULT 0);
 CREATE TABLE IF NOT EXISTS items (
@@ -63,7 +63,7 @@ function seed() {
     const lines = d[5].map(([id, q]) => ({ ...get.get(id), qty: q }));
     const total = lines.reduce((s, l) => s + l.price * l.qty, 0);
     const r = io.run(d[0], d[1], d[2], d[3], d[4], total, d[6]);
-    lines.forEach(l => oi.run(r.lastInsertRowid, l.id, l.name, l.price, l.qty));
+    lines.forEach(l => oi.run(Number(r.lastInsertRowid), l.id, l.name, l.price, l.qty));
   });
 }
 seed();
@@ -100,13 +100,14 @@ app.post('/api/orders', (req, res) => {
   }
   const total = lines.reduce((s, l) => s + l.price * l.qty, 0);
   const code = 'SF-' + (1000 + db.prepare('SELECT COUNT(*) c FROM orders').get().c + 1) + crypto.randomInt(10, 99);
-  const tx = db.transaction(() => {
+  db.exec('BEGIN');
+  try {
     const r = db.prepare('INSERT INTO orders (code,customer,phone,address,notes,total) VALUES (?,?,?,?,?,?)')
       .run(code, clean(customer).slice(0, 80), clean(phone), clean(address).slice(0, 200), clean(notes).slice(0, 200), total);
     const ins = db.prepare('INSERT INTO order_items (order_id,item_id,name,price,qty) VALUES (?,?,?,?,?)');
-    lines.forEach(l => ins.run(r.lastInsertRowid, l.id, l.name, l.price, l.qty));
-  });
-  tx();
+    lines.forEach(l => ins.run(Number(r.lastInsertRowid), l.id, l.name, l.price, l.qty));
+    db.exec('COMMIT');
+  } catch (e) { db.exec('ROLLBACK'); return res.status(500).json({ error: 'حصل خطأ، حاول تاني' }); }
   res.status(201).json({ code, total });
 });
 
@@ -160,7 +161,7 @@ app.post('/api/admin/items', auth, (req, res) => {
   if (!String(name || '').trim() || !(Number(price) > 0) || !db.prepare('SELECT 1 FROM categories WHERE id=?').get(category_id)) return res.status(400).json({ error: 'بيانات الصنف ناقصة' });
   const r = db.prepare('INSERT INTO items (category_id,name,description,price,emoji) VALUES (?,?,?,?,?)')
     .run(category_id, String(name).trim().slice(0, 80), String(description || '').slice(0, 200), Number(price), String(emoji || '🍽️').slice(0, 4));
-  res.status(201).json({ id: r.lastInsertRowid });
+  res.status(201).json({ id: Number(r.lastInsertRowid) });
 });
 app.delete('/api/admin/items/:id', auth, (req, res) => {
   db.prepare('UPDATE items SET available=0 WHERE id=?').run(req.params.id);
