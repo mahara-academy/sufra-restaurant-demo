@@ -22,7 +22,7 @@ async function refresh() {
   $('#orders').innerHTML = od.j.map(o => `<tr><td dir="ltr">${o.code}</td><td>${esc(o.customer)}<br><small dir="ltr">${esc(o.phone)}</small><br><small>${esc(o.address)}</small></td>
     <td>${o.items.map(i => esc(i.name) + ' × ' + i.qty).join('<br>')}${o.notes ? '<br><small>ملاحظة: ' + esc(o.notes) + '</small>' : ''}</td><td>${fmt(o.total)}</td>
     <td><span class="pill ${o.status}">${labels[o.status]}</span><br><select data-code="${o.code}">${Object.keys(labels).map(k => `<option value="${k}" ${k === o.status ? 'selected' : ''}>${labels[k]}</option>`).join('')}</select></td></tr>`).join('');
-  $('#items').innerHTML = mn.flatMap(c => c.items).map(i => `<tr><td>${i.emoji || ''} ${esc(i.name)}</td><td><input type="number" value="${i.price}" data-price="${i.id}" style="width:90px;margin:0" dir="ltr"></td>
+  $('#items').innerHTML = mn.flatMap(c => c.items).map(i => `<tr><td>${esc(i.name)}</td><td><input type="number" value="${i.price}" data-price="${i.id}" style="width:90px;margin:0" dir="ltr"></td>
     <td><input type="checkbox" data-av="${i.id}" ${i.available ? 'checked' : ''} style="width:auto;margin:0"></td></tr>`).join('');
   $('#nCat').innerHTML = mn.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
 }
@@ -34,8 +34,8 @@ document.addEventListener('change', async e => {
   if (t.dataset.av) { await api('/api/admin/items/' + t.dataset.av, { method: 'PATCH', body: JSON.stringify({ available: t.checked }) }); toast('اتحدث'); }
 });
 $('#addItem').onclick = async () => {
-  const r = await api('/api/admin/items', { method: 'POST', body: JSON.stringify({ category_id: Number($('#nCat').value), name: $('#nName').value, price: $('#nPrice').value, description: $('#nDesc').value, emoji: $('#nEm').value }) });
+  const r = await api('/api/admin/items', { method: 'POST', body: JSON.stringify({ category_id: Number($('#nCat').value), name: $('#nName').value, price: $('#nPrice').value, description: $('#nDesc').value }) });
   $('#amsg').className = 'msg ' + (r.ok ? 'ok' : 'err'); $('#amsg').textContent = r.ok ? 'اتضاف الصنف' : r.j.error;
-  if (r.ok) { ['nName', 'nPrice', 'nDesc', 'nEm'].forEach(i => $('#' + i).value = ''); refresh(); }
+  if (r.ok) { ['nName', 'nPrice', 'nDesc'].forEach(i => $('#' + i).value = ''); refresh(); }
 };
 show();

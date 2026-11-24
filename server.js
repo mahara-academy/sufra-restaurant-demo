@@ -21,42 +21,35 @@ CREATE TABLE IF NOT EXISTS order_items (
 
 function seed() {
   if (db.prepare('SELECT COUNT(*) c FROM categories').get().c) return;
-  const cats = ['مقبلات', 'مشويات', 'أطباق رئيسية', 'ساندويتشات', 'حلويات', 'مشروبات'];
+  const cats = ['برجر', 'سايدز', 'مشروبات', 'حلويات'];
   const ic = db.prepare('INSERT INTO categories (name, sort) VALUES (?, ?)');
   cats.forEach((c, i) => ic.run(c, i));
   const items = [
-    [1, 'حمص بالطحينة', 'حمص ناعم بزيت الزيتون والطحينة', 45, '🥣'],
-    [1, 'بابا غنوج', 'باذنجان مشوي بالطحينة والثوم', 50, '🍆'],
-    [1, 'سلطة خضراء', 'خيار وطماطم وخس وليمون', 35, '🥗'],
-    [1, 'ورق عنب', 'ورق عنب محشي بالأرز والخضار', 70, '🌿'],
-    [2, 'كباب مشكل', 'كباب كفتة وشيش طاووق مع أرز وسلطة', 220, '🍢'],
-    [2, 'ربع فرخة مشوية', 'ربع فرخة بالتتبيلة مع بطاطس', 130, '🍗'],
-    [2, 'ريش ضاني', 'ريش ضاني مشوية على الفحم', 340, '🥩'],
-    [2, 'شيش طاووق', 'قطع دجاج متبلة مشوية مع ثومية', 150, '🍢'],
-    [3, 'كشري', 'كشري مصري بالصلصة والدقة والشطة', 55, '🍝'],
-    [3, 'ملوخية بالفرخة', 'ملوخية خضراء مع أرز وفرخة', 110, '🍲'],
-    [3, 'محشي كرنب', 'كرنب محشي بالأرز والتتبيلة', 90, '🥬'],
-    [3, 'مكرونة بشاميل', 'مكرونة بالبشاميل واللحمة المفرومة', 95, '🍝'],
-    [4, 'ساندويتش شاورما فراخ', 'شاورما فراخ بالثومية والمخلل', 65, '🌯'],
-    [4, 'ساندويتش كبدة', 'كبدة إسكندراني حارة', 55, '🥙'],
-    [4, 'ساندويتش فلافل', 'فلافل طازجة بالطحينة والسلطة', 30, '🥙'],
-    [5, 'كنافة بالقشطة', 'كنافة ساخنة بالقشطة والقطر', 60, '🍮'],
-    [5, 'أم علي', 'أم علي بالمكسرات في الفرن', 55, '🥧'],
-    [5, 'بسبوسة', 'بسبوسة بالقشطة', 40, '🍰'],
-    [6, 'عصير ليمون بالنعناع', 'عصير ليمون طازج بالنعناع', 30, '🍋'],
-    [6, 'شاي بالنعناع', 'كوب شاي ساخن بالنعناع', 20, '🍵'],
-    [6, 'قهوة تركي', 'قهوة تركي مظبوط', 25, '☕'],
-    [6, 'مياه معدنية', 'زجاجة ٦٠٠ مل', 10, '💧']
+    [1, 'كلاسيك بيف', 'قطعة بيف مشوية، خس، طماطم، مخلل وصوص البيت', 95, 'burger'],
+    [1, 'تشيز برجر', 'بيف، جبنة شيدر ذايبة وبصل مكرمل', 110, 'burger'],
+    [1, 'دبل ستاك', 'قطعتين بيف وجبنة مضاعفة وصوص خاص', 150, 'burger'],
+    [1, 'سموكي باربيكيو', 'بيف، بيكون بقري، حلقة بصل وصوص باربيكيو', 135, 'burger'],
+    [1, 'كرسبي تشيكن', 'دجاج مقرمش، خس ومايونيز', 100, 'burger'],
+    [1, 'هالبينو حار', 'بيف، هالبينو، جبنة وصوص حار', 120, 'burger'],
+    [2, 'بطاطس مقرمشة', 'بطاطس ذهبية بالملح', 35, 'fries'],
+    [2, 'حلقات بصل', 'حلقات بصل مقرمشة مع صوص', 40, 'rings'],
+    [2, 'ناجتس دجاج', 'ست قطع مع صوص الغموس', 55, 'nuggets'],
+    [2, 'كول سلو', 'كرنب وجزر بصوص كريمي', 25, 'bowl'],
+    [3, 'كولا', 'علبة باردة', 20, 'drink'],
+    [3, 'ليمون بالنعناع', 'ليمون طازج ونعناع وثلج', 30, 'drink'],
+    [3, 'ميلك شيك فانيليا', 'آيس كريم فانيليا وحليب', 55, 'shake'],
+    [3, 'ميلك شيك شوكولاتة', 'شوكولاتة غنية وكريمة', 60, 'shake'],
+    [4, 'براوني بالآيس كريم', 'براوني دافي وسكوب فانيليا', 65, 'dessert'],
+    [4, 'كوكيز ساخنة', 'كوكيز برقائق الشوكولاتة', 35, 'cookie']
   ];
   const ii = db.prepare('INSERT INTO items (category_id,name,description,price,emoji) VALUES (?,?,?,?,?)');
   items.forEach(i => ii.run(...i));
-  // demo orders so the admin panel is not empty
   const io = db.prepare('INSERT INTO orders (code,customer,phone,address,notes,total,status) VALUES (?,?,?,?,?,?,?)');
   const oi = db.prepare('INSERT INTO order_items (order_id,item_id,name,price,qty) VALUES (?,?,?,?,?)');
   const demo = [
-    ['SF-1001', 'أحمد سمير', '01000000001', 'شارع الجمهورية، المنصورة', '', [[5, 1], [19, 2]], 'delivered'],
-    ['SF-1002', 'منى حسن', '01000000002', 'حي الجامعة، المنصورة', 'من غير بصل', [[13, 2], [20, 2]], 'preparing'],
-    ['SF-1003', 'يوسف علي', '01000000003', 'طلخا، الدقهلية', '', [[9, 3]], 'new']
+    ['BS-1001', 'أحمد سمير', '01000000001', 'شارع الجمهورية، المنصورة', '', [[2, 1], [7, 1], [11, 2]], 'delivered'],
+    ['BS-1002', 'منى حسن', '01000000002', 'حي الجامعة، المنصورة', 'من غير مخلل', [[4, 2], [13, 1]], 'preparing'],
+    ['BS-1003', 'يوسف علي', '01000000003', 'طلخا، الدقهلية', '', [[3, 1], [9, 1], [14, 1]], 'new']
   ];
   const get = db.prepare('SELECT id,name,price FROM items WHERE id=?');
   demo.forEach(d => {
@@ -99,7 +92,7 @@ app.post('/api/orders', (req, res) => {
     lines.push({ ...row, qty });
   }
   const total = lines.reduce((s, l) => s + l.price * l.qty, 0);
-  const code = 'SF-' + (1000 + db.prepare('SELECT COUNT(*) c FROM orders').get().c + 1) + crypto.randomInt(10, 99);
+  const code = 'BS-' + (1000 + db.prepare('SELECT COUNT(*) c FROM orders').get().c + 1) + crypto.randomInt(10, 99);
   db.exec('BEGIN');
   try {
     const r = db.prepare('INSERT INTO orders (code,customer,phone,address,notes,total) VALUES (?,?,?,?,?,?)')
@@ -159,8 +152,9 @@ app.patch('/api/admin/items/:id', auth, (req, res) => {
 app.post('/api/admin/items', auth, (req, res) => {
   const { category_id, name, description, price, emoji } = req.body || {};
   if (!String(name || '').trim() || !(Number(price) > 0) || !db.prepare('SELECT 1 FROM categories WHERE id=?').get(category_id)) return res.status(400).json({ error: 'بيانات الصنف ناقصة' });
+  const icon = { 1: 'burger', 2: 'fries', 3: 'drink', 4: 'dessert' }[Number(category_id)] || 'burger';
   const r = db.prepare('INSERT INTO items (category_id,name,description,price,emoji) VALUES (?,?,?,?,?)')
-    .run(category_id, String(name).trim().slice(0, 80), String(description || '').slice(0, 200), Number(price), String(emoji || '🍽️').slice(0, 4));
+    .run(category_id, String(name).trim().slice(0, 80), String(description || '').slice(0, 200), Number(price), icon);
   res.status(201).json({ id: Number(r.lastInsertRowid) });
 });
 app.delete('/api/admin/items/:id', auth, (req, res) => {
@@ -169,4 +163,4 @@ app.delete('/api/admin/items/:id', auth, (req, res) => {
 });
 
 const port = process.env.PORT || 3000;
-app.listen(port, () => console.log('Sufra demo on ' + port));
+app.listen(port, () => console.log('Burger Station demo on ' + port));
