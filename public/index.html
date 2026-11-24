@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>مطعم سفرة | اطلب أونلاين</title>
+<meta name="description" content="مشروع تجريبي: موقع مطعم بالعربي بقائمة طعام وطلب أونلاين وتتبع الطلب ولوحة تحكم.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div class="demo">مشروع تجريبي على بيانات وهمية، مفيش طلبات حقيقية بتتنفذ</div>
+<header class="top"><div class="wrap">
+  <a class="logo" href="/">سفرة<small>مطعم مصري</small></a>
+  <nav><a href="#menu">القائمة</a><a href="#track">تتبع طلبك</a><a href="/admin.html">لوحة التحكم</a></nav>
+  <button class="cartbtn" id="openCart">السلة<b id="cnt">0</b></button>
+</div></header>
+<main class="wrap">
+  <div class="hero">
+    <div>
+      <h1>أكل بيتي <em>مصري</em><br>يوصلك سخن</h1>
+      <p>اختار من القائمة، ضيف للسلة، وابعت طلبك في دقيقة. تقدر تتابع حالة الطلب برقمه.</p>
+      <a class="btn" href="#menu">شوف القائمة</a> <a class="btn ghost" href="#track">تتبع طلب</a>
+      <div class="stats"><div><b id="sItems">-</b>صنف</div><div><b id="sCats">-</b>أقسام</div><div><b>٣٠-٤٥</b>دقيقة توصيل</div></div>
+    </div>
+    <div class="plate" aria-hidden="true">🍽️</div>
+  </div>
+  <section id="menu">
+    <h2>القائمة</h2><p class="sub">الأسعار بالجنيه المصري</p>
+    <div class="tabs" id="tabs"></div>
+    <div id="menuBody">جاري التحميل…</div>
+  </section>
+  <section id="track">
+    <h2>تتبع طلبك</h2><p class="sub">اكتب رقم الطلب اللي ظهرلك بعد التأكيد</p>
+    <div class="track">
+      <div class="trackrow"><input id="trackCode" placeholder="مثال: SF-1002" dir="ltr"><button class="btn" id="trackBtn">تتبع</button></div>
+      <div id="trackOut"></div>
+    </div>
+  </section>
+</main>
+<footer><div class="wrap">مطعم سفرة، مشروع تجريبي من تنفيذ مازن السيد عادل. واجهة + Node.js + SQLite. <a href="/admin.html">لوحة التحكم (تجريبية)</a></div></footer>
+
+<div class="drawer" id="drawer"><div class="panel">
+  <div style="display:flex;justify-content:space-between;align-items:center"><h3>سلة الطلبات</h3><button class="add" id="closeCart">إغلاق</button></div>
+  <div id="cartLines"></div>
+  <div class="total"><span>الإجمالي</span><span id="cartTotal">0 ج</span></div>
+  <div id="form">
+    <label>الاسم</label><input id="fName" autocomplete="name">
+    <label>رقم الموبايل</label><input id="fPhone" inputmode="tel" dir="ltr" autocomplete="tel">
+    <label>العنوان</label><input id="fAddr" autocomplete="street-address">
+    <label>ملاحظات (اختياري)</label><textarea id="fNotes" rows="2"></textarea>
+    <div id="fMsg"></div>
+    <button class="btn" id="send" style="width:100%">تأكيد الطلب</button>
+  </div>
+</div></div>
+<div class="toast" id="toast"></div>
+<script src="/app.js"></script>
+</body></html>

@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>لوحة التحكم | مطعم سفرة</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap">
+<link rel="stylesheet" href="/style.css"></head>
+<body>
+<div class="demo">لوحة تحكم تجريبية، كلمة السر التجريبية: admin123</div>
+<header class="top"><div class="wrap"><a class="logo" href="/">سفرة<small>لوحة التحكم</small></a><a href="/">رجوع للموقع</a></div></header>
+<main class="wrap admin">
+  <div id="login" style="max-width:340px">
+    <h2>تسجيل الدخول</h2>
+    <input id="pw" type="password" placeholder="كلمة السر" dir="ltr">
+    <div id="lmsg"></div>
+    <button class="btn" id="go" style="width:100%">دخول</button>
+  </div>
+  <div id="app" style="display:none">
+    <div class="cards"><div class="stat"><b id="stO">0</b>إجمالي الطلبات</div><div class="stat"><b id="stP">0</b>طلبات شغالة</div><div class="stat"><b id="stS">0</b>المبيعات</div></div>
+    <h2>الطلبات</h2>
+    <div class="scroll"><table><thead><tr><th>الرقم</th><th>العميل</th><th>الطلب</th><th>الإجمالي</th><th>الحالة</th></tr></thead><tbody id="orders"></tbody></table></div>
+    <h2 style="margin-top:30px">الأصناف</h2>
+    <div class="scroll"><table><thead><tr><th>الصنف</th><th>السعر</th><th>متاح</th></tr></thead><tbody id="items"></tbody></table></div>
+    <h3 style="margin-top:24px">إضافة صنف</h3>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px">
+      <select id="nCat" style="padding:10px"></select><input id="nName" placeholder="الاسم"><input id="nPrice" type="number" placeholder="السعر" dir="ltr"><input id="nDesc" placeholder="وصف قصير"><input id="nEm" placeholder="إيموجي" maxlength="4">
+    </div>
+    <div id="amsg"></div><button class="btn" id="addItem">إضافة</button>
+  </div>
+</main>
+<div class="toast" id="toast"></div>
+<script src="/admin.js"></script>
+</body></html>
