@@ -48,7 +48,7 @@ $('#send').onclick = async () => {
   const j = await r.json();
   if (!r.ok) { m.className = 'msg err'; m.textContent = j.error; return; }
   cart = {}; save();
-  m.className = 'msg ok'; m.textContent = `تم استلام طلبك. رقم الطلب: ${j.code}، الإجمالي ${fmt(j.total)}.`;
+  const d = $('#done'); d.className = 'msg ok'; d.innerHTML = `تم استلام طلبك. رقم الطلب: <b dir="ltr">${j.code}</b>، الإجمالي ${fmt(j.total)}. تقدر تتابعه من قسم "تتبع طلبك".`;
   $('#trackCode').value = j.code;
 };
 async function track() {
