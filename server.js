@@ -25,21 +25,20 @@ function seed() {
   const ic = db.prepare('INSERT INTO categories (name, sort) VALUES (?, ?)');
   cats.forEach((c, i) => ic.run(c, i));
   const items = [
-    [1, 'كلاسيك بيف', 'قطعة بيف مشوية، خس، طماطم، مخلل وصوص البيت', 95, 'burger'],
-    [1, 'تشيز برجر', 'بيف، جبنة شيدر ذايبة وبصل مكرمل', 110, 'burger'],
-    [1, 'دبل ستاك', 'قطعتين بيف وجبنة مضاعفة وصوص خاص', 150, 'burger'],
-    [1, 'سموكي باربيكيو', 'بيف، بيكون بقري، حلقة بصل وصوص باربيكيو', 135, 'burger'],
-    [1, 'كرسبي تشيكن', 'دجاج مقرمش، خس ومايونيز', 100, 'burger'],
-    [1, 'هالبينو حار', 'بيف، هالبينو، جبنة وصوص حار', 120, 'burger'],
+    [1, 'كلاسيك بيف', 'قطعة بيف مشوية، خس، طماطم، مخلل وصوص البيت', 95, 'b1'],
+    [1, 'تشيز برجر', 'بيف، جبنة شيدر ذايبة وبصل مكرمل', 110, 'b3'],
+    [1, 'دبل ستاك', 'قطعتين بيف وجبنة مضاعفة وصوص خاص', 150, 'hero'],
+    [1, 'سموكي باربيكيو', 'بيف، بيكون بقري، حلقة بصل وصوص باربيكيو', 135, 'b2'],
+    [1, 'كرسبي تشيكن', 'دجاج مقرمش، خس ومايونيز', 100, 'b4'],
+    [1, 'هالبينو حار', 'بيف، هالبينو، جبنة وصوص حار', 120, 'b5'],
     [2, 'بطاطس مقرمشة', 'بطاطس ذهبية بالملح', 35, 'fries'],
     [2, 'حلقات بصل', 'حلقات بصل مقرمشة مع صوص', 40, 'rings'],
     [2, 'ناجتس دجاج', 'ست قطع مع صوص الغموس', 55, 'nuggets'],
-    [2, 'كول سلو', 'كرنب وجزر بصوص كريمي', 25, 'bowl'],
-    [3, 'كولا', 'علبة باردة', 20, 'drink'],
-    [3, 'ليمون بالنعناع', 'ليمون طازج ونعناع وثلج', 30, 'drink'],
-    [3, 'ميلك شيك فانيليا', 'آيس كريم فانيليا وحليب', 55, 'shake'],
-    [3, 'ميلك شيك شوكولاتة', 'شوكولاتة غنية وكريمة', 60, 'shake'],
-    [4, 'براوني بالآيس كريم', 'براوني دافي وسكوب فانيليا', 65, 'dessert'],
+    [2, 'كرسبي ناجتس', 'ثلاث قطع دجاج مقرمشة', 45, 'tenders'],
+    [3, 'كولا', 'كوباية كبيرة بالتلج والليمون', 25, 'cola'],
+    [3, 'ميلك شيك فانيليا', 'آيس كريم فانيليا وحليب', 55, 'shake2'],
+    [3, 'ميلك شيك شوكولاتة', 'شوكولاتة غنية وكريمة', 60, 'shake1'],
+    [4, 'براوني بالآيس كريم', 'براوني دافي وسكوب فانيليا', 65, 'brownie'],
     [4, 'كوكيز ساخنة', 'كوكيز برقائق الشوكولاتة', 35, 'cookie']
   ];
   const ii = db.prepare('INSERT INTO items (category_id,name,description,price,emoji) VALUES (?,?,?,?,?)');
@@ -152,7 +151,7 @@ app.patch('/api/admin/items/:id', auth, (req, res) => {
 app.post('/api/admin/items', auth, (req, res) => {
   const { category_id, name, description, price, emoji } = req.body || {};
   if (!String(name || '').trim() || !(Number(price) > 0) || !db.prepare('SELECT 1 FROM categories WHERE id=?').get(category_id)) return res.status(400).json({ error: 'بيانات الصنف ناقصة' });
-  const icon = { 1: 'burger', 2: 'fries', 3: 'drink', 4: 'dessert' }[Number(category_id)] || 'burger';
+  const icon = { 1: 'b1', 2: 'fries', 3: 'cola', 4: 'cookie' }[Number(category_id)] || 'b1';
   const r = db.prepare('INSERT INTO items (category_id,name,description,price,emoji) VALUES (?,?,?,?,?)')
     .run(category_id, String(name).trim().slice(0, 80), String(description || '').slice(0, 200), Number(price), icon);
   res.status(201).json({ id: Number(r.lastInsertRowid) });
