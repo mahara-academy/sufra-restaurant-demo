@@ -15,19 +15,32 @@
   <nav><a href="#menu">القائمة</a><a href="#track">تتبع طلبك</a><a href="/admin.html">لوحة التحكم</a></nav>
   <button class="cartbtn" id="openCart">السلة<b id="cnt">0</b></button>
 </div></header>
-<div class="wrap hero">
-  <div>
-    <h1>برجر بيتحضر<br>بعد ما تطلب</h1>
-    <p>لحمة بلدي مفرومة يوميًا، بتتشوي على الفحم وبتتقدم مع بطاطس طازجة. اطلب من القائمة وتابع طلبك برقمه.</p>
-    <div class="acts"><a class="btn" href="#menu">شوف القائمة</a> <a class="btn ghost" href="#track">تتبع طلب</a></div>
+<div class="hero"><div class="wrap">
+  <div class="ht">
+    <span class="kicker">مطعم برجر، المنصورة (تجريبي)</span>
+    <h1>برجر على أصوله،<br>بيتشوي لما تطلبه.</h1>
+    <p>بنفرم اللحمة كل يوم ونشويها على الجريل وقت الطلب، ونحط عليها جبنة وصوصنا. اختار من القائمة وإحنا نوصّلهولك سخن.</p>
+    <div class="acts"><a class="btn" href="#menu">اطلب دلوقتي</a> <a class="btn ghost light" href="#track">تتبع طلبك</a></div>
   </div>
-  <img src="/img/cover.jpg" alt="برجر وبطاطس" width="1000" height="750">
-</div>
+</div></div>
+<div class="info"><div class="wrap">
+  <div><b>مواعيد الشغل</b>كل يوم من ١٢ الضهر لـ ٢ بعد نص الليل</div>
+  <div><b>التوصيل</b>داخل المنصورة وطلخا</div>
+  <div><b>الدفع</b>كاش عند الاستلام</div>
+</div></div>
 <main class="wrap">
   <section id="menu">
     <h2>القائمة</h2><p class="sub">الأسعار بالجنيه المصري</p>
     <div class="tabs" id="tabs"></div>
     <div id="menuBody">جاري التحميل…</div>
+  </section>
+  <section id="how">
+    <h2>إزاي تطلب</h2>
+    <div class="how">
+      <div class="rv"><span>١</span><h3>اختار</h3><p>من القائمة، وضيف اللي يعجبك للسلة.</p></div>
+      <div class="rv"><span>٢</span><h3>أكّد</h3><p>اكتب اسمك وعنوانك ورقم موبايلك، وهتاخد رقم طلب.</p></div>
+      <div class="rv"><span>٣</span><h3>استنى</h3><p>تابع طلبك برقمه لحد ما يوصل لحد الباب.</p></div>
+    </div>
   </section>
   <section id="track">
     <h2>تتبع طلبك</h2><p class="sub">اكتب رقم الطلب اللي ظهرلك بعد التأكيد</p>
@@ -39,7 +52,7 @@
 </main>
 <footer><div class="wrap">
   <p>برجر ستيشن، مشروع تجريبي من تنفيذ مازن السيد عادل. واجهة + Node.js + SQLite. <a href="/admin.html">لوحة التحكم (تجريبية)</a></p>
-  <p>الصور من Wikimedia Commons، ملكية عامة أو CC0.</p>
+  <p>الصور من Unsplash (مرخصة للاستخدام المجاني).</p>
 </div></footer>
 <div class="drawer" id="drawer"><div class="panel">
   <div style="display:flex;justify-content:space-between;align-items:center"><h3>سلة الطلبات</h3><button class="add" id="closeCart">إغلاق</button></div>

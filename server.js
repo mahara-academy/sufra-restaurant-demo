@@ -21,34 +21,31 @@ CREATE TABLE IF NOT EXISTS order_items (
 
 function seed() {
   if (db.prepare('SELECT COUNT(*) c FROM categories').get().c) return;
-  const cats = ['برجر', 'سايدز', 'مشروبات', 'حلويات'];
+  const cats = ['برجر', 'سايدز', 'مشروبات وحلويات'];
   const ic = db.prepare('INSERT INTO categories (name, sort) VALUES (?, ?)');
   cats.forEach((c, i) => ic.run(c, i));
   const items = [
-    [1, 'كلاسيك بيف', 'قطعة بيف مشوية، خس، طماطم، مخلل وصوص البيت', 95, 'b1'],
-    [1, 'تشيز برجر', 'بيف، جبنة شيدر ذايبة وبصل مكرمل', 110, 'b3'],
-    [1, 'دبل ستاك', 'قطعتين بيف وجبنة مضاعفة وصوص خاص', 150, 'hero'],
-    [1, 'سموكي باربيكيو', 'بيف، بيكون بقري، حلقة بصل وصوص باربيكيو', 135, 'b2'],
-    [1, 'كرسبي تشيكن', 'دجاج مقرمش، خس ومايونيز', 100, 'b4'],
-    [1, 'هالبينو حار', 'بيف، هالبينو، جبنة وصوص حار', 120, 'b5'],
-    [2, 'بطاطس مقرمشة', 'بطاطس ذهبية بالملح', 35, 'fries'],
-    [2, 'حلقات بصل', 'حلقات بصل مقرمشة مع صوص', 40, 'rings'],
-    [2, 'ناجتس دجاج', 'ست قطع مع صوص الغموس', 55, 'nuggets'],
-    [2, 'كرسبي ناجتس', 'ثلاث قطع دجاج مقرمشة', 45, 'tenders'],
-    [3, 'كولا', 'كوباية كبيرة بالتلج والليمون', 25, 'cola'],
-    [3, 'ميلك شيك فانيليا', 'آيس كريم فانيليا وحليب', 55, 'shake2'],
-    [3, 'ميلك شيك شوكولاتة', 'شوكولاتة غنية وكريمة', 60, 'shake1'],
-    [4, 'براوني بالآيس كريم', 'براوني دافي وسكوب فانيليا', 65, 'brownie'],
-    [4, 'كوكيز ساخنة', 'كوكيز برقائق الشوكولاتة', 35, 'cookie']
+    [1, 'كلاسيك', 'قطعة لحمة مشوية، جبنة شيدر، خس وطماطم وصوص البيت', 95, 'c1'],
+    [1, 'دبل تشيز', 'قطعتين لحمة وجبنة ذايبة على بريوش محمّص', 130, 'c2'],
+    [1, 'تريبل ستاك', 'تلات قطع لحمة وتلات طبقات جبنة، للجعان بجد', 165, 'c3'],
+    [1, 'باربيكيو بيكون', 'لحمة وبيكون مدخن وبصل أحمر وصوص باربيكيو، مع بطاطس', 140, 'c4'],
+    [1, 'كرسبي تشيكن بوكس', 'دجاج مقرمش مع خس ومايونيز، ومعاه بطاطس ويدجز', 120, 'c5'],
+    [1, 'مشوي بالبيكون', 'لحمة مشوية على الجريل ملفوفة ببيكون', 150, 'c6'],
+    [2, 'بطاطس مقرمشة', 'بطاطس مقلية على الطلب مع صوص غموس', 40, 's1'],
+    [2, 'وينجز حارة', 'أجنحة دجاج بصوص حار', 75, 's2'],
+    [2, 'ناجتس دجاج', 'قطع دجاج مقرمشة بتتقدم سخنة', 55, 's3'],
+    [3, 'ليمون بالتلج', 'عصير ليمون وبرتقال بارد بالتلج', 30, 'd1'],
+    [3, 'كوكيز شوكولاتة', 'كوكيز طرية برقائق الشوكولاتة', 35, 'k1'],
+    [3, 'دبل شوكولاتة كوكيز', 'كوكيز بالشوكولاتة الغامقة، بتتخبز كل يوم', 40, 'k2']
   ];
   const ii = db.prepare('INSERT INTO items (category_id,name,description,price,emoji) VALUES (?,?,?,?,?)');
   items.forEach(i => ii.run(...i));
   const io = db.prepare('INSERT INTO orders (code,customer,phone,address,notes,total,status) VALUES (?,?,?,?,?,?,?)');
   const oi = db.prepare('INSERT INTO order_items (order_id,item_id,name,price,qty) VALUES (?,?,?,?,?)');
   const demo = [
-    ['BS-1001', 'أحمد سمير', '01000000001', 'شارع الجمهورية، المنصورة', '', [[2, 1], [7, 1], [11, 2]], 'delivered'],
-    ['BS-1002', 'منى حسن', '01000000002', 'حي الجامعة، المنصورة', 'من غير مخلل', [[4, 2], [13, 1]], 'preparing'],
-    ['BS-1003', 'يوسف علي', '01000000003', 'طلخا، الدقهلية', '', [[3, 1], [9, 1], [14, 1]], 'new']
+    ['BS-1001', 'أحمد سمير', '01000000001', 'شارع الجمهورية، المنصورة', '', [[2, 1], [7, 1], [10, 2]], 'delivered'],
+    ['BS-1002', 'منى حسن', '01000000002', 'حي الجامعة، المنصورة', 'من غير مخلل', [[4, 2], [11, 1]], 'preparing'],
+    ['BS-1003', 'يوسف علي', '01000000003', 'طلخا، الدقهلية', '', [[3, 1], [9, 1], [12, 1]], 'new']
   ];
   const get = db.prepare('SELECT id,name,price FROM items WHERE id=?');
   demo.forEach(d => {
@@ -151,7 +148,7 @@ app.patch('/api/admin/items/:id', auth, (req, res) => {
 app.post('/api/admin/items', auth, (req, res) => {
   const { category_id, name, description, price, emoji } = req.body || {};
   if (!String(name || '').trim() || !(Number(price) > 0) || !db.prepare('SELECT 1 FROM categories WHERE id=?').get(category_id)) return res.status(400).json({ error: 'بيانات الصنف ناقصة' });
-  const icon = { 1: 'b1', 2: 'fries', 3: 'cola', 4: 'cookie' }[Number(category_id)] || 'b1';
+  const icon = { 1: 'c1', 2: 's1', 3: 'd1' }[Number(category_id)] || 'c1';
   const r = db.prepare('INSERT INTO items (category_id,name,description,price,emoji) VALUES (?,?,?,?,?)')
     .run(category_id, String(name).trim().slice(0, 80), String(description || '').slice(0, 200), Number(price), icon);
   res.status(201).json({ id: Number(r.lastInsertRowid) });

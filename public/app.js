@@ -42,7 +42,7 @@ function renderMenu(c) {
     const items = cat.items.filter(i => i.available);
     if (!items.length) return '';
     return `<div class="catname">${cat.name}</div><div class="grid">` + items.map(i => `
-      <div class="item rv"><div class="pic"><img src="/img/${/^[a-z0-9]+$/.test(i.emoji || '') ? i.emoji : 'b1'}.jpg" alt="${i.name}" loading="lazy"></div><div class="b"><h3>${i.name}</h3><p>${i.description || ''}</p>
+      <div class="item rv"><div class="pic"><img src="/img/${/^[a-z0-9]+$/.test(i.emoji || '') ? i.emoji : 'c1'}.jpg" alt="${i.name}" loading="lazy"></div><div class="b"><h3>${i.name}</h3><p>${i.description || ''}</p>
       <div class="row"><span class="price">${fmt(i.price)}</span><button class="add" data-add="${i.id}">أضف +</button></div></div></div>`).join('') + '</div>';
   }).join('');
 }
